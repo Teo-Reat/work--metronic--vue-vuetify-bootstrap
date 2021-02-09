@@ -1,0 +1,128 @@
+<div>
+    <div>
+        <div>
+            <b-modal ref="my-modal" hide-footer title="Create new user">
+                <CreateUser>
+
+                </CreateUser>
+            </b-modal>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- <KTCodePreview v-bind:title="'Selectable rows '">
+                <template v-slot:preview>
+          <p>
+            The <code>show-select</code> prop will render a checkbox in the
+            default header to toggle all rows, and a checkbox for each default
+            row. You can customize these with the slots
+            <code>header.data-table-select</code> and
+            <code>item.data-table-select</code> respectively. You can also
+            switch between allowing multiple selected rows at the same time or
+            just one with the <code>single-select</code> prop.
+          </p>
+          <v-data-table
+            v-model="code1.selected"
+            :headers="code1.headers"
+            :items="code1.desserts"
+            :single-select="code1.singleSelect"
+            item-key="name"
+            show-select
+            class="elevation-1"
+          >
+            <template v-slot:top>
+              <v-switch
+                v-model="code1.singleSelect"
+                label="Single select"
+                class="pa-3"
+              ></v-switch>
+            </template>
+                </v-data-table>
+                </template>
+                <template v-slot:html>
+          {{ code1.html }}
+        </template>
+                <template v-slot:js>
+          {{ code1.js }}
+        </template>
+            </KTCodePreview>
+
+            <KTCodePreview v-bind:title="'Grouped rows'">
+                <template v-slot:preview>
+          <p>
+            Using the <code>group-by</code> and <code>group-desc</code> props
+            you can group rows on an item property. The
+            <code>show-group-by</code> prop will show a group button in the
+            default header.
+          </p>
+          <v-data-table
+            :headers="code2.headers"
+            :items="code2.desserts"
+            item-key="name"
+            group-by="category"
+            class="elevation-1"
+            show-group-by
+          ></v-data-table>
+        </template>
+                <template v-slot:html>
+          {{ code2.html }}
+        </template>
+                <template v-slot:js>
+          {{ code2.js }}
+        </template>
+            </KTCodePreview>
+
+            <KTCodePreview v-bind:title="'Sort on multiple columns'">
+                <template v-slot:preview>
+          <p>
+            Using the <code>multi-sort</code> prop will enable you to sort on
+            multiple columns at the same time. When enabled, you can pass
+            arrays to both <code>sort-by</code> and <code>sort-desc</code> to
+            programmatically control the sorting, instead of single values.
+          </p>
+          <v-data-table
+            :headers="code3.headers"
+            :items="code3.desserts"
+            :sort-by="['calories', 'fat']"
+            :sort-desc="[false, true]"
+            multi-sort
+            class="elevation-1"
+          ></v-data-table>
+        </template>
+                <template v-slot:html>
+          {{ code3.html }}
+        </template>
+                <template v-slot:js>
+          {{ code3.js }}
+        </template>
+            </KTCodePreview> -->
+
+            <KTCodePreview v-bind:title="'List of users'">
+
+                <template v-slot:preview>
+                 <v-card>
+
+            <v-card-title>
+
+              <v-spacer>
+                <b-button id="show-btn" @click="showModal" variant="primary">New user</b-button>
+
+              </v-spacer>
+              <v-text-field v-model="code4.search" append-icon="search" label="Search" single-line hide-details>
+              </v-text-field>
+            </v-card-title>
+            <v-data-table :headers="code4.headers" :items="code4.desserts" :search="code4.search"
+              @click:row="userDetail"></v-data-table>
+          </v-card>
+        </template>
+                <template v-slot:html>
+          {{ code4.html }}
+        </template>
+                <template v-slot:js>
+          {{ code4.js }}
+        </template>
+            </KTCodePreview>
+        </div>
+    </div>
+</div>

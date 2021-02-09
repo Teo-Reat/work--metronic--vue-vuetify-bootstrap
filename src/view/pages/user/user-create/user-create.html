@@ -1,0 +1,63 @@
+<form class="form" id="kt_form" @submit.stop.prevent="onSubmit">
+    <!--begin: Wizard Step 1-->
+    <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+        <h4 class="mb-10 font-weight-bold text-dark">
+            Enter your Account Details
+        </h4>
+        <div class="form-group">
+            <label>Fullname</label>
+            <b-form-input type="text" class="form-control form-control-solid form-control-lg" name="fname" placeholder="First Name" v-model="form.fullName" :state="validateState('fullName')">
+            </b-form-input>
+            <span class="form-text text-muted">Please enter your first name.</span>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <b-form-input type="tel" class="form-control form-control-solid form-control-lg" name="phone" placeholder="phone" v-model="form.mobile" :state="validateState('mobile')">
+                    </b-form-input>
+                    <span class="form-text text-muted">Please enter your phone number.</span>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label>Email</label>
+                    <b-form-input type="email" class="form-control form-control-solid form-control-lg" name="email" placeholder="Email" v-model="form.email" :state="validateState('email')">
+                    </b-form-input>
+                    <span class="form-text text-muted">Please enter your email address.</span>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label>Birthday</label>
+                    <b-form-input type="date" class="form-control form-control-solid form-control-lg" name="birthday" placeholder="birthday" v-model="form.birthday" :state="validateState('birthday')">
+                    </b-form-input>
+                    <span class="form-text text-muted">Please enter your email address.</span>
+                </div>
+            </div>
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label>Password</label>
+                    <b-form-input type="password" class="form-control form-control-solid form-control-lg" name="fname" placeholder="current password" v-model="form.password">
+                    </b-form-input>
+                    <span class="form-text text-muted"> password</span>
+                </div>
+                <div class="form-group">
+                    <label>Repeat Password</label>
+                    <b-form-input type="password" class="form-control form-control-solid form-control-lg" name="fname" placeholder="new password" v-model="form.rePassword">
+                    </b-form-input>
+                    <span class="form-text text-muted">Please the new password.</span>
+                </div>
+                <div class="form-group">
+                    <label>Active</label>
+                    <b-form-checkbox size="lg" :state="validateState('active')" v-model="form.active"></b-form-checkbox>
+                </div>
+            </div>
+        </div>
+
+        <b-button v-on:click="onSubmit" variant="primary">Save</b-button>
+
+    </div>
+
+    <!--end: Wizard Step 1-->
+</form>
