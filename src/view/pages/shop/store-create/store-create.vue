@@ -239,7 +239,7 @@
 
                   <!--                  Payment and delivery multiselect-->
                   <div class="row">
-                    <v-col cols="12" sm="6">
+                    <v-col cols="12" sm="6" lg="3">
                       <v-select
                           v-model="form.payments"
                           :items="payment"
@@ -250,7 +250,7 @@
                           persistent-hint
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" sm="6">
+                    <v-col cols="12" sm="6" lg="3">
                       <v-select
                           v-model="form.deliveryTypes"
                           :items="delivery"
@@ -260,6 +260,20 @@
                           hint="Select available delivery methods."
                           persistent-hint
                       ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" lg="3">
+                      <v-text-field
+                          label="Latitude"
+                          single-line
+                          v-model="form.storeLocation.lat"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" lg="3">
+                      <v-text-field
+                          label="Longitude"
+                          single-line
+                          v-model="form.storeLocation.lng"
+                      ></v-text-field>
                     </v-col>
                   </div>
 
@@ -373,56 +387,56 @@ export default {
     return {
       form: {
         name: {
-          en: '',
-          heb: ''
+          en: 'Life is a scurvy gibbet.',
+          heb: 'Mainlands rise with madness at the dark la marsa beach!'
         },
         address: {
-          en: '',
-          heb: ''
+          en: 'Aye, pestilence!',
+          heb: 'Punishment ho! burn to be raided.'
         },
-        description: null,
+        description: 'Lubbers are the scallywags of the scurvy faith.The plank screams urchin like a weird jack.Ho-ho-ho! power of malaria.Malaria, booty, and punishment.Suns stutter from pestilences like wet sons.',
         storeLocation: {
-          lat: '',
-          lng: ''
+          lat: '11.111',
+          lng: '22.222'
         },
         weekHours: {
           open: {
-            hour: '',
-            minute: ''
+            hour: '08',
+            minute: '00'
           },
           close: {
-            hour: '',
-            minute: ''
+            hour: '20',
+            minute: '00'
           },
           active: false
         },
         weekEndHours: {
           open: {
-            hour: '',
-            minute: ''
+            hour: '08',
+            minute: '00'
           },
           close: {
-            hour: '',
-            minute: ''
+            hour: '20',
+            minute: '00'
           },
           active: false
         },
         shabatHours: {
           open: {
-            hour: '',
-            minute: ''
+            hour: '14',
+            minute: '00'
           },
           close: {
-            hour: '',
-            minute: ''
+            hour: '16',
+            minute: '00'
           },
-          active: false
+          active: true
         },
         payments: [],
         deliveryTypes: [],
-        tel: '',
-        mail: '',
-        mobile: '',
+        tel: '+79999999999',
+        mail: 'r@me.re',
+        mobile: '+79999999999',
         fax: '',
         active: false,
         adminActive: false,
