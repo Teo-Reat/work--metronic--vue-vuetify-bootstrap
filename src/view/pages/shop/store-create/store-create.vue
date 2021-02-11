@@ -4,7 +4,8 @@
     <div>
       <b-modal ref="some-modal" hide-footer title="Warning!">
         <div class="d-block text-center">
-          <h3>You must select another city. Thanks!</h3>
+          <h3 v-if="!deliveryPrice">You must add price</h3>
+          <h3 v-else>You must select another city</h3>
         </div>
         <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Ok, I understood</b-button>
       </b-modal>
@@ -348,10 +349,12 @@
                 </v-card>
                 <v-container class="col-12 col-lg-8">
                   <v-row>
-                    <div v-for="(city, key) in form.delivery" :key="key" class="col-6 col-lg-2"
-                         @click.prevent="deleteDelivery(key)">
-                      <v-card class="p-2">
-                        {{ city }}
+                    <div v-for="(city, key) in form.delivery" :key="key" class="col-6 col-lg-2">
+                      <v-card class="p-2 h-100">
+                        <div class="font-weight-bold font-size-lg">{{ getCityName(city.city)[0] }}</div>
+                        <div>{{ getCityName(city.city)[1] }}</div>
+                        <div>Price: {{ city.price }}</div>
+                        <b-button class="mt-3" variant="outline-danger" block @click="deleteDelivery(key)">Delete</b-button>
                       </v-card>
                     </div>
                   </v-row>
@@ -470,7 +473,7 @@ export default {
       delivery: ["delivery", "pickup", "fast delivery"],
       currentItem: "tab-Base form",
       items: ["Base form", "Delivery", "Form++", "Form+++"],
-      city: "",
+      city: '',
       cities: [],
       deliveryPrice: '',
       hours: [
@@ -521,6 +524,8 @@ export default {
     this.getCity();
   },
 
+  computed: {
+  },
   methods: {
     addItem(item) {
       const removed = this.items.splice(0, 1);
@@ -568,7 +573,7 @@ export default {
               .map(item => {
                 return {
                   _id: item._id,
-                  name: `${item.name.en} | ${item.name.heb}`
+                  name: `${item.name.heb} | ${item.name.en}`
                 };
               })
               .sort((item1, item2) => {
@@ -583,7 +588,12 @@ export default {
         price: this.deliveryPrice
       }
       if (this.checkDuplicate(delivery)) this.showModal()
-      if (!this.checkDuplicate(delivery)) this.form.delivery.push(delivery);
+      if (!this.deliveryPrice) this.showModal()
+      if (!this.checkDuplicate(delivery) && this.deliveryPrice) {
+        this.form.delivery.push(delivery)
+        this.city = ''
+        this.deliveryPrice = ''
+      }
     },
     checkDuplicate(delivery) {
       return this.form.delivery.find(city => city.city === delivery.city)
@@ -596,6 +606,9 @@ export default {
     },
     hideModal() {
       this.$refs['some-modal'].hide()
+    },
+    getCityName(id) {
+      return (this.cities.find(city => city._id === id).name).split(' | ');
     }
   }
 };
