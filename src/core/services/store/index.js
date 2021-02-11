@@ -12,13 +12,13 @@ import breadcrumbs from "./breadcrumbs.module";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: {
-    auth,
-    htmlClass,
-    config,
-    user,
-    store,
-    customer,
-    breadcrumbs
-  }
+    modules: {
+        auth,
+        htmlClass,
+        config,
+        user,
+        store,
+        customer,
+        breadcrumbs
+    }
 });

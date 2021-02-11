@@ -285,7 +285,7 @@ export default {
     },
     stringCase: {
         default: 'Venligst fyll inn dette feltet kun med små bokstaver',
-        upper: 'Venligst fyll inn dette feltet kun med shop bokstaver',
+        upper: 'Venligst fyll inn dette feltet kun med store bokstaver',
     },
     stringLength: {
         between: 'Vennligst fyll ut dette feltet med en verdi mellom %s og %s tegn',

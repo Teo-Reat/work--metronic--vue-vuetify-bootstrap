@@ -49,7 +49,7 @@ const actions = {
         });
     },
 
-    //  get user details
+    //  get user details 
     [GET_USER](context, id) {
         return new Promise(resolve => {
             ApiService.get("/user/" + id)
@@ -83,7 +83,7 @@ const actions = {
         });
     },
 
-    // update only user stores
+    // update only user stores 
     [UPDATE_USER_CHANGE_STORES](context, payload) {
         const { stores } = payload;
         const user = { stores };

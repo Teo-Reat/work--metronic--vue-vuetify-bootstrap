@@ -168,10 +168,9 @@ export default {
       // dummy delay
       setTimeout(() => {
         // send login request
-        this.$store
-          .dispatch(LOGIN, { email, password })
-          // go to which page after successfully login
-          .then(() => this.$router.push({ name: "dashboard" }));
+        this.$store.dispatch(LOGIN, { email, password })
+        // go to which page after successfully login
+        .then(() => this.$router.push({ name: "dashboard" }));
 
         submitButton.classList.remove(
           "spinner",

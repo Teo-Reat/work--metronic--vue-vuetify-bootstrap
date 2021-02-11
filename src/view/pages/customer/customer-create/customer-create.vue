@@ -10,7 +10,7 @@ import KTWizard from "@/assets/js/components/wizard";
 import Swal from "sweetalert2";
 import {
   CREATE_CUSTOMER,
-  UPDATE_CUSTOMER
+  UPDATE_CUSTOMER,
 } from "@/core/services/store/customer.module";
 
 import { mapState } from "vuex";
@@ -33,38 +33,39 @@ export default {
         phone: this.customer?.phone,
         source: this.customer?.sourceUrl,
         sourceUrl: this.customer?.sourceUrl,
-        _id: this.customer?._id
-      }
+        _id: this.customer?._id,
+      },
     };
   },
   validations: {
     form: {
       email: {
         required,
-        email
+        email,
       },
       source: {
-        required
+        required,
       },
       fullName: {
-        required
+        required,
       },
       sourceUrl: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: "Customer", route: "/" },
-      { title: "Edit" }
+      { title: "Edit" },
     ]);
 
     // Initialize form wizard
     const wizard = new KTWizard("kt_wizard_v2", {
       startStep: 1, // initial active step number
-      clickableSteps: true // allow step clicking
+      clickableSteps: true, // allow step clicking
     });
+
 
     // // Validation before going to next page
     // wizard.on("beforeNext", function(/*wizardObj*/) {
@@ -73,20 +74,20 @@ export default {
     // });
 
     // Change event
-    wizard.on("change", function(/*wizardObj*/) {
+    wizard.on("change", function (/*wizardObj*/) {
       setTimeout(() => {
         KTUtil.scrollTop();
       }, 500);
     });
 
-    bus.$on("openFormEditCustomer", customer => {
+    bus.$on("openFormEditCustomer", (customer) => {
       this.form = {
         fullName: customer.fullName,
         email: customer.email,
         phone: customer.phone,
         source: customer.source,
         sourceUrl: customer.sourceUrl,
-        _id: customer._id
+        _id: customer._id,
       };
     });
     this.form.fullName = this.customer.fullName;
@@ -97,13 +98,13 @@ export default {
     this.form._id = this.customer._id;
   },
   methods: {
-    submit: function(e) {
+    submit: function (e) {
       e.preventDefault();
       Swal.fire({
         title: "",
         text: "The application has been successfully submitted!",
         icon: "success",
-        confirmButtonClass: "btn btn-secondary"
+        confirmButtonClass: "btn btn-secondary",
       });
     },
 
@@ -120,34 +121,34 @@ export default {
       }
       this.$store
         .dispatch(actionType, this.form)
-        .then(data => {
+        .then((data) => {
           data;
 
           Swal.fire({
             title: "",
             text: "Customer created ",
             icon: "success",
-            confirmButtonClass: "btn btn-secondary"
+            confirmButtonClass: "btn btn-secondary",
           });
           bus.$emit("customerCreated", {});
         })
-        .catch(error => {
+        .catch((error) => {
           //catch the error here
           console.log(error);
           Swal.fire({
             title: "",
             text: error.message,
             icon: "warning",
-            confirmButtonClass: "btn btn-danger"
+            confirmButtonClass: "btn btn-danger",
           });
         });
-    }
+    },
     // -- end submit form user account --
   },
   computed: {
     ...mapState({
-      errors: state => state.auth.errors
-    })
-  }
+      errors: (state) => state.auth.errors,
+    }),
+  },
 };
 </script>

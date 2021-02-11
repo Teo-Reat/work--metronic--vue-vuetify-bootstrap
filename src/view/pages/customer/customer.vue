@@ -145,49 +145,49 @@ export default {
             text: "Fullname",
             align: "left",
             sortable: true,
-            value: "fullName"
+            value: "fullName",
           },
           { text: "Email", value: "email" },
           { text: "Phone", value: "phone" },
-          { text: "Source", value: "source" }
+          { text: "Source", value: "source" },
         ],
-        desserts: []
-      }
+        desserts: [],
+      },
     };
   },
   components: {
     KTCodePreview,
-    CreateCustomer
+    CreateCustomer,
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: "Dashboard", route: "" },
-      { title: "Customers" }
+      { title: "Customers" },
     ]);
     this.$store
       .dispatch(GET_CUSTOMER_LIST)
       // bind user to model
-      .then(data =>
-        data.map(user => {
+      .then((data) =>
+        data.map((user) => {
           this.code4.desserts.push(new Customer(user));
         })
       );
-    bus.$on("customerCreated", dat => {
+    bus.$on("customerCreated", (dat) => {
       dat;
       this.$store
         .dispatch(GET_CUSTOMER_LIST)
         // bind user to model
-        .then(data => {
+        .then((data) =>{
           this.code4.desserts = [];
-          data.map(user => {
+          data.map((user) => {
             this.code4.desserts.push(new Customer(user));
             this.hideModal();
-          });
+          })
         });
     });
   },
   methods: {
-    userDetail: function(row) {
+    userDetail: function (row) {
       if (row) this.selectedCustomer = new Customer(row);
       else this.selectedCustomer = new Customer({});
       this.showModal();
@@ -197,7 +197,7 @@ export default {
     },
     hideModal() {
       this.$refs["my-modal"].hide();
-    }
-  }
+    },
+  },
 };
 </script>

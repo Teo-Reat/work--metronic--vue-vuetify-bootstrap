@@ -31,6 +31,8 @@ import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
 import VueDateFns from "vue-date-fns";
 
+
+
 // API service init
 ApiService.init();
 
@@ -38,25 +40,25 @@ ApiService.init();
 // MockService.init();
 
 router.beforeEach((to, from, next) => {
-  // Ensure we checked auth before each page load.
-  Promise.all([store.dispatch(VERIFY_AUTH)]).then(next);
+    // Ensure we checked auth before each page load.
+    Promise.all([store.dispatch(VERIFY_AUTH)]).then(next);
 
-  // reset config to initial state
-  store.dispatch(RESET_LAYOUT_CONFIG);
+    // reset config to initial state
+    store.dispatch(RESET_LAYOUT_CONFIG);
 
-  // Scroll page to top on every route change
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 100);
+    // Scroll page to top on every route change
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
 });
 export const bus = new Vue();
 
 Vue.use(VueDateFns);
 new Vue({
-  router,
-  store,
-  i18n,
-  vuetify,
-  VueDateFns,
-  render: h => h(App)
+    router,
+    store,
+    i18n,
+    vuetify,
+    VueDateFns,
+    render: h => h(App)
 }).$mount("#app");

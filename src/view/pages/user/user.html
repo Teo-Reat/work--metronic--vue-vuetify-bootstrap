@@ -1,6 +1,21 @@
 <div>
+    <!-- <b-alert show variant="light" class="alert alert-custom alert-white alert-shadow fade show gutter-b">
+        <div class="alert-icon">
+            <span class="svg-icon svg-icon-lg">
+        <inline-svg src="media/svg/icons/Tools/Compass.svg" />
+      </span>
+        </div>
+        <div class="alert-text">
+            <b>Data tables</b> The <code>v-data-table</code> component is used for displaying tabular data. Features include sorting, searching, pagination, inline-editing, header tooltips, and row selection.
+            <a class="font-weight-bold" href="https://vuetifyjs.com/en/components/data-tables" target="_blank">
+        See documentation.
+      </a>
+        </div>
+    </b-alert> -->
     <div>
+
         <div>
+
             <b-modal ref="my-modal" hide-footer title="Create new user">
                 <CreateUser>
 
@@ -107,7 +122,7 @@
 
               <v-spacer>
                 <b-button id="show-btn" @click="showModal" variant="primary">New user</b-button>
-
+          
               </v-spacer>
               <v-text-field v-model="code4.search" append-icon="search" label="Search" single-line hide-details>
               </v-text-field>

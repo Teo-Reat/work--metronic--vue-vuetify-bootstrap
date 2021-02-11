@@ -285,7 +285,7 @@ export default {
     },
     stringCase: {
         default: 'Udfyld venligst kun dette felt med små bogstaver',
-        upper: 'Udfyld venligst kun dette felt med shop bogstaver',
+        upper: 'Udfyld venligst kun dette felt med store bogstaver',
     },
     stringLength: {
         between: 'Udfyld venligst dette felt med en værdi mellem %s og %s tegn',

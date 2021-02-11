@@ -53,7 +53,7 @@ export default {
       },
       stores: [],
       stores2: [],
-      selectedStore: []
+      selectedStore: [],
     };
   },
   validations: {
@@ -108,7 +108,7 @@ export default {
 
     // Get list of stores
     this.$store.dispatch(GET_STORE_LIST).then(data => {
-      this.stores = data;
+    this.stores = data;
     });
   },
   methods: {
@@ -188,7 +188,7 @@ export default {
     // submit form stores
     onSubmitFormStores() {
       this.formStores.id = this.user._id;
-      // this.formStores.stores = this.formStores.stores.map(shop => shop._id);
+     // this.formStores.stores = this.formStores.stores.map(store => store._id);
       this.$store
         .dispatch(UPDATE_USER_CHANGE_STORES, this.formStores)
         .then(data => {

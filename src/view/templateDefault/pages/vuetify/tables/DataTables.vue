@@ -148,7 +148,7 @@
       </div>
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 import KTCodePreview from "@/view/content/CodePreview.vue";

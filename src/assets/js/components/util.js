@@ -1002,12 +1002,12 @@ var KTUtil = function() {
 
                 el.style.cssText = css;
 
-                // shop it in cache
+                // store it in cache
                 el.setAttribute('kt-hidden-' + prop, value);
 
                 return parseFloat(value);
             } else {
-                // shop it in cache
+                // store it in cache
                 return parseFloat(el.getAttribute('kt-hidden-' + prop));
             }
         },
