@@ -15,30 +15,32 @@
             </b-list-group>
           </b-card-text>
           <b-card-text>
-            <router-link to="/shops" class="d-inline-block my-6">Back</router-link>
+            <router-link to="/shops" class="d-inline-block my-6"
+              >Back</router-link
+            >
           </b-card-text>
         </b-card>
       </div>
       <div class="col-md-6">
         <b-carousel
-            id="carousel-1"
-            v-if="shop.pic"
-            v-model="slide"
-            :interval="4000"
-            controls
-            indicators
-            background="#ababab"
-            img-width="1024"
-            img-height="480"
-            style="text-shadow: 1px 1px 2px #333;"
+          id="carousel-1"
+          v-if="shop.pic"
+          v-model="slide"
+          :interval="4000"
+          controls
+          indicators
+          background="#ababab"
+          img-width="1024"
+          img-height="480"
+          style="text-shadow: 1px 1px 2px #333;"
         >
           <b-carousel-slide
-              v-for="(image, key) in shop.pic"
-              :key="key"
-              caption=""
-              text=""
-              :img-src="'https://backend.hashve.co.il/assets/store/' + image"
-              style="max-width: 100%; object-fit: cover; max-height: 400px"
+            v-for="(image, key) in shop.pic"
+            :key="key"
+            caption=""
+            text=""
+            :img-src="'https://backend.hashve.co.il/assets/store/' + image"
+            style="max-width: 100%; object-fit: cover; max-height: 400px"
           ></b-carousel-slide>
         </b-carousel>
       </div>
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-import {GET_STORE_LIST} from "@/core/services/store/store.module";
+import { GET_STORE_LIST } from "@/core/services/store/store.module";
 
 export default {
   name: "store-detail",
@@ -68,10 +70,11 @@ export default {
         this.shop = this.$route.params.shop;
       } else {
         this.$store
-            .dispatch(GET_STORE_LIST)
-            .then(data =>
-                (this.shop = data.find(e => e._id === this.$route.params.id))
-            );
+          .dispatch(GET_STORE_LIST)
+          .then(
+            data =>
+              (this.shop = data.find(e => e._id === this.$route.params.id))
+          );
       }
     }
   }

@@ -1,55 +1,74 @@
 <template>
-  <v-container fluid>
-    <v-row align="center">
-      <v-col cols="12" sm="6">
-        <v-subheader v-text="'Multiple with persistent hint'"></v-subheader>
+  <v-card class="col-12 col-lg-6">
+    <v-container>
+      <h4>Delivery</h4>
+      <v-col cols="12">
+        <v-combobox
+          :items="cities"
+          v-model="city"
+          :item-text="'name'"
+          single-line
+          return-object
+          label="Select city"
+        ></v-combobox>
       </v-col>
-      <v-col cols="12" sm="6">
-        <v-select
-            v-model="e6"
-            :items="states"
-            :menu-props="{ maxHeight: '400' }"
-            label="Select"
-            multiple
-            hint="Pick your favorite states"
-            persistent-hint
-        ></v-select>
+      <v-col cols="12">
+        <v-text-field label="Price" single-line></v-text-field>
       </v-col>
-
-      <v-col cols="12" sm="6">
-        <v-subheader v-text="'Multiple (Chips) with persistent hint'"></v-subheader>
-      </v-col>
-
-      <v-col cols="12" sm="6">
-        <v-select
-            v-model="e7"
-            :items="states"
-            label="Select"
-            multiple
-            chips
-            hint="What are the target regions"
-            persistent-hint
-        ></v-select>
-      </v-col>
-    </v-row>
-  </v-container>
+      <div class="my-2 px-2">
+        <v-btn large color="primary" class="w-100" @click="addDelivery(city)"
+          >Add delivery</v-btn
+        >
+      </div>
+      <hr />
+      <div>{{ selectedCities }}</div>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
+import { GET_CITY_LIST } from "@/core/services/store/store.module";
+
 export default {
   name: "store-test",
   data() {
     return {
-      e6: [],
-      e7: [],
-      states: [
-        'Alabama', 'Alaska'
-      ],
-    }
+      city: "",
+      cities: [],
+      selectedCities: []
+    };
   },
-}
+  mounted() {
+    this.getCity();
+  },
+
+  computed: {},
+
+  methods: {
+    getCity() {
+      this.$store.dispatch(GET_CITY_LIST).then(data => {
+        if (data) {
+          this.cities = data
+            .map(item => {
+              return {
+                _id: item._id,
+                name: `${item.name.en} | ${item.name.heb}`
+              };
+            })
+            .sort((item1, item2) => {
+              return item1.name > item2.name ? 1 : 0;
+            });
+        }
+      });
+    },
+    addDelivery(val) {
+      this.selectedCities.push(val);
+    },
+    deleteDelivery(val) {
+      this.selectedCities.splice(val, 1);
+    }
+  }
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

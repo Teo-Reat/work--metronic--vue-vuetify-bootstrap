@@ -4,8 +4,10 @@ import JwtService from "@/core/services/jwt.service";
 
 // action types
 export const GET_STORE_LIST = "shop-list";
+export const GET_CITY_LIST = "city-list";
 export const CREATE_STORE = 'create-store'
 export const SERVER_PREFIXE = "/store";
+export const SERVER_CITY_PREFIXE = "/api/v1/city";
 export const SET_ERROR = "setError";
 
 const state = {
@@ -18,6 +20,17 @@ const actions = {
     [GET_STORE_LIST](context) {
         return new Promise(resolve => {
             ApiService.get(SERVER_PREFIXE)
+                .then(({ data }) => {
+                    resolve(data);
+                })
+                .catch(({ response }) => {
+                    context.commit(SET_ERROR, response);
+                });
+        });
+    },
+    [GET_CITY_LIST](context) {
+        return new Promise(resolve => {
+            ApiService.get(SERVER_CITY_PREFIXE)
                 .then(({ data }) => {
                     resolve(data);
                 })
