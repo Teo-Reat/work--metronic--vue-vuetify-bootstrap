@@ -1,5 +1,14 @@
 <template>
   <v-card>
+    <!--    Modal window-->
+    <div>
+      <b-modal ref="some-modal" hide-footer title="Warning!">
+        <div class="d-block text-center">
+          <h3>You must select another city. Thanks!</h3>
+        </div>
+        <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Ok, I understood</b-button>
+      </b-modal>
+    </div>
     <v-form @submit.stop.prevent="onSubmit">
       <v-toolbar color="" dark flat>
         <template v-slot:extension>
@@ -232,24 +241,25 @@
                   </v-col>
 
                   <!--                    Location-->
-
                   <div class="row col-12 col-lg-4">
                     <v-card>
                       <h4 class="col-12">Shop location</h4>
-                      <v-col cols="6">
-                        <v-text-field
-                            label="Latitude"
-                            single-line
-                            v-model="form.storeLocation.lat"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="6">
-                        <v-text-field
-                            label="Longitude"
-                            single-line
-                            v-model="form.storeLocation.lng"
-                        ></v-text-field>
-                      </v-col>
+                      <v-row class="px-4">
+                        <v-col cols="6">
+                          <v-text-field
+                              label="Latitude"
+                              single-line
+                              v-model="form.storeLocation.lat"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-text-field
+                              label="Longitude"
+                              single-line
+                              v-model="form.storeLocation.lng"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
                     </v-card>
                   </div>
                 </div>
@@ -274,7 +284,7 @@
                 </v-card>
 
                 <!--                  Admin information field-->
-                <div class="row">
+                <v-col cols="12">
                   <v-checkbox
                       v-model="form.active"
                       label="active"
@@ -285,6 +295,8 @@
                       label="admin active"
                       class="col-6 mt-0"
                   ></v-checkbox>
+                </v-col>
+                <v-row>
                   <v-col col="12" sm="6">
                     <v-textarea
                         name="message"
@@ -303,39 +315,49 @@
                         v-model="form.adminMessage"
                     ></v-textarea>
                   </v-col>
-                </div>
+                </v-row>
               </v-row>
             </v-container>
           </v-card>
 
           <!--          Second form-->
-          <v-card v-if="currentItem === 'tab-Form+'" flat>
+          <v-card v-if="currentItem === 'tab-Delivery'" flat>
             <v-container class="px-12 py-16">
-              <!--              <h4>Delivery</h4>-->
-              <!--              <v-col cols="12">-->
-              <!--                <v-combobox-->
-              <!--                  :items="cities"-->
-              <!--                  v-model="city"-->
-              <!--                  :item-text="'name'"-->
-              <!--                  single-line-->
-              <!--                  return-object-->
-              <!--                  label="Select city"-->
-              <!--                ></v-combobox>-->
-              <!--              </v-col>-->
-              <!--              <v-col cols="12">-->
-              <!--                <v-text-field label="Price" single-line></v-text-field>-->
-              <!--              </v-col>-->
-              <!--              <div class="my-2 px-2">-->
-              <!--                <v-btn-->
-              <!--                  large-->
-              <!--                  color="primary"-->
-              <!--                  class="w-100"-->
-              <!--                  @click="addDelivery(city)"-->
-              <!--                  >Add delivery</v-btn-->
-              <!--                >-->
-              <!--              </div>-->
-              <!--              <hr />-->
-              <!--              <div>{{ selectedCities }}</div>-->
+              <h2>Delivery</h2>
+              <div class="row">
+                <v-card class="col-12 col-lg-4">
+                  <v-col cols="12">
+                    <v-combobox
+                        :items="cities"
+                        v-model="city"
+                        :item-text="'name'"
+                        single-line
+                        return-object
+                        label="Select city"
+                    ></v-combobox>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field label="Price" single-line v-model="deliveryPrice"></v-text-field>
+                  </v-col>
+                  <div class="my-2 px-2">
+                    <v-btn large color="primary" class="w-100" @click.prevent="addDelivery(city)"
+                    >Add delivery
+                    </v-btn
+                    >
+                  </div>
+                </v-card>
+                <v-container class="col-12 col-lg-8">
+                  <v-row>
+                    <div v-for="(city, key) in form.delivery" :key="key" class="col-6 col-lg-2"
+                         @click.prevent="deleteDelivery(key)">
+                      <v-card class="p-2">
+                        {{ city }}
+                      </v-card>
+                    </div>
+                  </v-row>
+                </v-container>
+
+              </div>
             </v-container>
           </v-card>
 
@@ -432,11 +454,7 @@ export default {
           active: true
         },
         payments: [],
-        delivery: {
-          _id: "",
-          city: "",
-          price: ""
-        },
+        delivery: [],
         deliveryTypes: [],
         city: "",
         tel: "+79999999999",
@@ -454,7 +472,7 @@ export default {
       items: ["Base form", "Delivery", "Form++", "Form+++"],
       city: "",
       cities: [],
-      selectedCities: [],
+      deliveryPrice: '',
       hours: [
         "00",
         "01",
@@ -494,7 +512,8 @@ export default {
         "45",
         "50",
         "55"
-      ]
+      ],
+      checkModal: false
     };
   },
 
@@ -558,12 +577,26 @@ export default {
         }
       });
     },
-    // addDelivery(val) {
-    //   this.selectedCities.push(val);
-    // },
-    // deleteDelivery(val) {
-    //   this.selectedCities.splice(val, 1);
-    // }
+    addDelivery(val) {
+      let delivery = {
+        city: val._id,
+        price: this.deliveryPrice
+      }
+      if (this.checkDuplicate(delivery)) this.showModal()
+      if (!this.checkDuplicate(delivery)) this.form.delivery.push(delivery);
+    },
+    checkDuplicate(delivery) {
+      return this.form.delivery.find(city => city.city === delivery.city)
+    },
+    deleteDelivery(val) {
+      this.form.delivery.splice(val, 1);
+    },
+    showModal() {
+      this.$refs['some-modal'].show()
+    },
+    hideModal() {
+      this.$refs['some-modal'].hide()
+    }
   }
 };
 </script>
