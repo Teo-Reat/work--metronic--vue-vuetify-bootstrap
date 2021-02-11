@@ -2,7 +2,7 @@
   <v-card>
     <!--    Modal window-->
     <div>
-      <b-modal ref="some-modal" hide-footer title="Warning!">
+      <b-modal ref="another-modal" hide-footer title="Warning!">
         <div class="d-block text-center">
           <h3 v-if="!deliveryPrice">You must add price</h3>
           <h3 v-else>You must select another city</h3>
@@ -270,16 +270,16 @@
                   <div class="row">
                     <h4 class="col-12">Contact information</h4>
                     <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Phone" single-line></v-text-field>
+                      <v-text-field label="Phone" single-line v-model="form.tel"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Mobile" single-line></v-text-field>
+                      <v-text-field label="Mobile" single-line v-model="form.mobile"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Email" single-line></v-text-field>
+                      <v-text-field label="Email" single-line v-model="form.mail"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Fax" single-line></v-text-field>
+                      <v-text-field label="Fax" single-line v-model="form.fax"></v-text-field>
                     </v-col>
                   </div>
                 </v-card>
@@ -396,17 +396,13 @@
 </template>
 
 <script>
-import {
-  CREATE_STORE,
-  GET_CITY_LIST
-} from "@/core/services/store/store.module";
+import {CREATE_STORE, GET_CITY_LIST, GET_STORE_LIST} from "@/core/services/store/store.module";
 import Swal from "sweetalert2";
 import {bus} from "@/main";
 
 export default {
-  name: "shop-create",
-
-  data() {
+  name: "store-edit",
+  data: function () {
     return {
       form: {
         name: {
@@ -517,14 +513,12 @@ export default {
         "55"
       ],
       checkModal: false
-    };
+    }
   },
-
   mounted() {
     this.getCity();
-  },
-
-  computed: {
+    this.$store.dispatch(GET_STORE_LIST)
+        .then(data => (this.form = data.find(e => e._id === this.$route.params.id)));
   },
   methods: {
     addItem(item) {
@@ -611,5 +605,9 @@ export default {
       return (this.cities.find(city => city._id === id).name).split(' | ');
     }
   }
-};
+}
 </script>
+
+<style scoped>
+
+</style>

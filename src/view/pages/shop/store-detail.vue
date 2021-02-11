@@ -15,9 +15,12 @@
             </b-list-group>
           </b-card-text>
           <b-card-text>
-            <router-link to="/shops" class="d-inline-block my-6"
-              >Back</router-link
-            >
+            <router-link to="/shops" class="d-inline-block my-6">
+              Back
+            </router-link>
+            <router-link :to="{ name: 'shop_edit', params: { id: shop._id} }" class="card-link">
+              Edit
+            </router-link>
           </b-card-text>
         </b-card>
       </div>
