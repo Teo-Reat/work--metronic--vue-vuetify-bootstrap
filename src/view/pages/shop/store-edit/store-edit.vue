@@ -354,7 +354,8 @@
                         <div class="font-weight-bold font-size-lg">{{ getCityName(city.city)[0] }}</div>
                         <div>{{ getCityName(city.city)[1] }}</div>
                         <div>Price: {{ city.price }}</div>
-                        <b-button class="mt-3" variant="outline-danger" block @click="deleteDelivery(key)">Delete</b-button>
+                        <b-button class="mt-3" variant="outline-danger" block @click="deleteDelivery(key)">Delete
+                        </b-button>
                       </v-card>
                     </div>
                   </v-row>
@@ -396,15 +397,17 @@
 </template>
 
 <script>
-import {CREATE_STORE, GET_CITY_LIST, GET_STORE_LIST} from "@/core/services/store/store.module";
+import {GET_CITY_LIST, GET_STORE_LIST} from "@/core/services/store/store.module";
 import Swal from "sweetalert2";
-import {bus} from "@/main";
+import {UPDATE_STORE_INFO} from "@/core/services/store/store.module";
+import {Store} from "@/core/models/Store.model";
 
 export default {
   name: "store-edit",
   data: function () {
     return {
       form: {
+        _id: '',
         name: {
           en: "Life is a scurvy gibbet.",
           heb: "Mainlands rise with madness at the dark la marsa beach!"
@@ -538,19 +541,23 @@ export default {
       });
     },
     onSubmit() {
+      this.form.id = this.form._id;
       this.$store
-          .dispatch(CREATE_STORE, this.form)
+          .dispatch(UPDATE_STORE_INFO, this.form)
+          // bind store to model
           .then(data => {
-            data;
+            this.store = new Store(data);
+            console.log(this.store)
+            // init accountForm
             Swal.fire({
               title: "",
-              text: "The application has been successfully submitted!",
+              text: "Store details updated",
               icon: "success",
               confirmButtonClass: "btn btn-secondary"
             });
-            bus.$emit("storeCreated", {});
           })
           .catch(error => {
+            //catch the error here
             console.log(error);
             Swal.fire({
               title: "",

@@ -8,47 +8,53 @@ export const GET_CITY_LIST = "city-list";
 export const CREATE_STORE = 'create-store'
 export const SERVER_PREFIXE = "/store";
 export const SERVER_CITY_PREFIXE = "/api/v1/city";
+export const UPDATE_STORE_INFO = "update-store-info"
 export const SET_ERROR = "setError";
 
 const state = {
-    errors: null,
-    store: {},
-    isAuthenticated: !!JwtService.getToken()
+	errors: null,
+	store: {},
+	isAuthenticated: !!JwtService.getToken()
 };
 
 const actions = {
-    [GET_STORE_LIST](context) {
-        return new Promise(resolve => {
-            ApiService.get(SERVER_PREFIXE)
-                .then(({ data }) => {
-                    resolve(data);
-                })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response);
-                });
-        });
-    },
-    [GET_CITY_LIST](context) {
-        return new Promise(resolve => {
-            ApiService.get(SERVER_CITY_PREFIXE)
-                .then(({ data }) => {
-                    resolve(data);
-                })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response);
-                });
-        });
-    },
-    [CREATE_STORE](context, payload) {
+	[GET_STORE_LIST](context) {
+		return new Promise(resolve => {
+			ApiService.get(SERVER_PREFIXE)
+				.then(({data}) => {
+					resolve(data);
+				})
+				.catch(({response}) => {
+					context.commit(SET_ERROR, response);
+				});
+		});
+	},
+	[GET_CITY_LIST](context) {
+		return new Promise(resolve => {
+			ApiService.get(SERVER_CITY_PREFIXE)
+				.then(({data}) => {
+					resolve(data);
+				})
+				.catch(({response}) => {
+					context.commit(SET_ERROR, response);
+				});
+		});
+	},
+	[CREATE_STORE](context, payload) {
 
-        return ApiService.post("store/", payload).then(({ data }) => {
+		return ApiService.post("store/", payload).then(({data}) => {
 
-            return data;
-        });
-    },
+			return data;
+		});
+	},
+	[UPDATE_STORE_INFO](context, payload) {
+		return ApiService.put("store/" + payload.id, payload).then(({data}) => {
+			return data;
+		});
+	},
 };
 
 export default {
-    state,
-    actions
+	state,
+	actions
 };
