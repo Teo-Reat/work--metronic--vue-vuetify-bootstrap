@@ -9,6 +9,7 @@ export const CREATE_STORE = 'create-store'
 export const SERVER_PREFIXE = "/store";
 export const SERVER_CITY_PREFIXE = "/api/v1/city";
 export const UPDATE_STORE_INFO = "update-store-info"
+// export const DELETE_STORE = 'delete-store'
 export const SET_ERROR = "setError";
 
 const state = {
@@ -52,6 +53,9 @@ const actions = {
 			return data;
 		});
 	},
+	// [DELETE_STORE](id) {
+	// 	return ApiService.delete("store/" + id)
+	// }
 };
 
 export default {

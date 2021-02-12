@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <v-card class="p-8">
-        <router-link :to="{ name: 'store_create' }" class="card-link">
+        <router-link :to="{ name: 'store_create' }" class="card-link font-weight-bold">
           Create
         </router-link>
         <router-link :to="{ name: 'store_test' }" class="card-link">
@@ -28,7 +28,7 @@
                       name: 'shop_detail',
                       params: { id: shop._id, shop: shop }
                     }"
-                    class="card-link"
+                    class="card-link font-weight-bold"
                   >
                     Detail
                   </router-link>
@@ -38,25 +38,19 @@
             <b-col md="8" style="display: flex; justify-content: flex-end">
               <b-card-img
                 v-if="shop.pic[0]"
-                :src="
-                  'https://backend.hashve.co.il/assets/store/' + shop.pic[0]
-                "
+                :src="`https://backend.hashve.co.il/assets/store/${shop.pic[0]}`"
                 class="rounded-0"
                 style="max-height: 180px; width: 30%; object-fit: cover"
               ></b-card-img>
               <b-card-img
                 v-if="shop.pic[1]"
-                :src="
-                  'https://backend.hashve.co.il/assets/store/' + shop.pic[1]
-                "
+                :src="`https://backend.hashve.co.il/assets/store/${shop.pic[1]}`"
                 class="rounded-0"
                 style="max-height: 180px; width: 30%; object-fit: cover"
               ></b-card-img>
               <b-card-img
                 v-if="shop.pic[2]"
-                :src="
-                  'https://backend.hashve.co.il/assets/store/' + shop.pic[2]
-                "
+                :src="`https://backend.hashve.co.il/assets/store/${shop.pic[2]}`"
                 class="rounded-0"
                 style="max-height: 180px; width: 30%; object-fit: cover"
               ></b-card-img>
@@ -87,7 +81,14 @@ export default {
       { title: "Shops" }
     ]);
     this.$store.dispatch(GET_STORE_LIST).then(data => (this.storeList = data));
-  }
+  },
+
+  // methods: {
+  //   deleteStore(id) {
+  //     console.log(this.$store.dispatch(DELETE_STORE, id))
+  //
+  //   }
+  // }
 };
 </script>
 

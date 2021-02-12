@@ -222,6 +222,8 @@
                     <v-select
                         v-model="form.payments"
                         :items="payment"
+                        item-text="name"
+                        item-value="id"
                         :menu-props="{ maxHeight: '400' }"
                         label="Payment type"
                         multiple
@@ -233,6 +235,8 @@
                     <v-select
                         v-model="form.deliveryTypes"
                         :items="delivery"
+                        item-text="name"
+                        item-value="id"
                         :menu-props="{ maxHeight: '400' }"
                         label="Delivery type"
                         multiple
@@ -424,34 +428,34 @@ export default {
         },
         weekHours: {
           open: {
-            hour: "08",
-            minute: "00"
+            hour: 0,
+            minute: 0
           },
           close: {
-            hour: "20",
-            minute: "00"
+            hour: 0,
+            minute: 0
           },
           active: false
         },
         weekEndHours: {
           open: {
-            hour: "08",
-            minute: "00"
+            hour: 0,
+            minute: 0
           },
           close: {
-            hour: "20",
-            minute: "00"
+            hour: 0,
+            minute: 0
           },
           active: false
         },
         shabatHours: {
           open: {
-            hour: "14",
-            minute: "00"
+            hour: 0,
+            minute: 0
           },
           close: {
-            hour: "16",
-            minute: "00"
+            hour: 0,
+            minute: 0
           },
           active: true
         },
@@ -468,52 +472,78 @@ export default {
         adminMessage: null,
         message: null
       },
-      payment: ["phone", "credit card", "error"],
-      delivery: ["delivery", "pickup", "fast delivery"],
+      payment: [
+        {
+          id: '0',
+          name: 'phone'
+        },
+        {
+          id: '1',
+          name: 'credit card'
+        },
+        {
+          id: '2',
+          name: 'error'
+        }
+      ],
+      delivery: [
+        {
+          id: '0',
+          name: 'delivery'
+        },
+        {
+          id: '1',
+          name: 'pickup'
+        },
+        {
+          id: '2',
+          name: 'fast delivery'
+        }
+      ],
       currentItem: "tab-Base form",
       items: ["Base form", "Delivery", "Form++", "Form+++"],
       city: '',
       cities: [],
       deliveryPrice: '',
       hours: [
-        "00",
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23"
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
       ],
       minutes: [
-        "00",
-        "05",
-        "10",
-        "15",
-        "20",
-        "25",
-        "30",
-        "35",
-        "40",
-        "45",
-        "50",
-        "55"
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55
       ],
       checkModal: false
     }
