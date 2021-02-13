@@ -2,7 +2,7 @@
   <v-card>
     <!--    Modal window-->
     <div>
-      <b-modal ref="another-modal" hide-footer title="Warning!">
+      <b-modal ref="some-modal" hide-footer title="Warning!">
         <div class="d-block text-center">
           <h3 v-if="!deliveryPrice">You must add price</h3>
           <h3 v-else>You must select another city</h3>
@@ -10,11 +10,13 @@
         <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Ok, I understood</b-button>
       </b-modal>
     </div>
+
+    <!--    Form for shop create-->
     <v-form @submit.stop.prevent="onSubmit">
-      <v-toolbar color="" dark flat>
+      <v-toolbar dark flat style="background: #1e1e2d">
         <template v-slot:extension>
           <v-tabs v-model="currentItem" fixed-tabs slider-color="white">
-            <v-tab v-for="item in items" :key="item" :href="'#tab-' + item">
+            <v-tab v-for="item in items" :key="item" :href="'tab-' + item">
               {{ item }}
             </v-tab>
           </v-tabs>
@@ -24,11 +26,14 @@
       <!--      Tabs-->
       <v-tabs-items v-model="currentItem">
         <v-tab-item v-for="item in items" :key="item" :value="'tab-' + item">
+
           <!--          First form-->
           <v-card v-if="currentItem === 'tab-Base form'" flat>
-            <v-container class="px-12 py-16">
-              <h2>Base form</h2>
+            <v-container class="px-12 pt-16">
               <v-row>
+                <!--                Card title-->
+                <h2 class="col-12">Base form</h2>
+
                 <!--                Name English field-->
                 <v-col cols="12" sm="6" lg="4">
                   <v-text-field
@@ -66,306 +71,318 @@
                 </v-col>
 
                 <!--                Description textarea field-->
-                <v-textarea
-                    name="input-7-1"
-                    filled
-                    label="Description. A few words about store"
-                    auto-grow
-                    v-model="form.description"
-                ></v-textarea>
-
-                <!--                  Worktime select-->
-                <div class="row">
-                  <v-col class="d-flex" cols="12" sm="4">
-                    <b-card no-body class="overflow-hidden p-4">
-                      <b-row>
-                        <h4 class="col-9">Week hours</h4>
-                        <v-checkbox
-                            v-model="form.weekHours.active"
-                            label="active"
-                            class="col-3 mt-0"
-                        ></v-checkbox>
-                        <h6 class="col-12">Open</h6>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="hours"
-                              label="hours"
-                              dense
-                              v-model="form.weekHours.open.hour"
-                          ></v-select>
-                        </b-col>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="minutes"
-                              label="minutes"
-                              dense
-                              v-model="form.weekHours.open.minute"
-                          ></v-select>
-                        </b-col>
-                        <h6 class="col-12">Close</h6>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="hours"
-                              label="hours"
-                              dense
-                              v-model="form.weekHours.close.hour"
-                          ></v-select>
-                        </b-col>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="minutes"
-                              label="minutes"
-                              dense
-                              v-model="form.weekHours.close.minute"
-                          ></v-select>
-                        </b-col>
-                      </b-row>
-                    </b-card>
-                  </v-col>
-                  <v-col class="d-flex" cols="12" sm="4">
-                    <b-card no-body class="overflow-hidden p-4">
-                      <b-row>
-                        <h4 class="col-9">Weekend hours</h4>
-                        <v-checkbox
-                            v-model="form.weekEndHours.active"
-                            label="active"
-                            class="col-3 mt-0"
-                        ></v-checkbox>
-                        <h6 class="col-12">Open</h6>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="hours"
-                              label="hours"
-                              dense
-                              v-model="form.weekEndHours.open.hour"
-                          ></v-select>
-                        </b-col>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="minutes"
-                              label="minutes"
-                              dense
-                              v-model="form.weekEndHours.open.minute"
-                          ></v-select>
-                        </b-col>
-                        <h6 class="col-12">Close</h6>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="hours"
-                              label="hours"
-                              dense
-                              v-model="form.weekEndHours.close.hour"
-                          ></v-select>
-                        </b-col>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="minutes"
-                              label="minutes"
-                              dense
-                              v-model="form.weekEndHours.close.minute"
-                          ></v-select>
-                        </b-col>
-                      </b-row>
-                    </b-card>
-                  </v-col>
-                  <v-col class="d-flex" cols="12" sm="4">
-                    <b-card no-body class="overflow-hidden p-4">
-                      <b-row>
-                        <h4 class="col-9">Shabat hours</h4>
-                        <v-checkbox
-                            v-model="form.shabatHours.active"
-                            label="active"
-                            class="col-3 mt-0"
-                        ></v-checkbox>
-                        <h6 class="col-12">Open</h6>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="hours"
-                              label="hours"
-                              dense
-                              v-model="form.shabatHours.open.hour"
-                          ></v-select>
-                        </b-col>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="minutes"
-                              label="minutes"
-                              dense
-                              v-model="form.shabatHours.open.minute"
-                          ></v-select>
-                        </b-col>
-                        <h6 class="col-12">Close</h6>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="hours"
-                              label="hours"
-                              dense
-                              v-model="form.shabatHours.close.hour"
-                          ></v-select>
-                        </b-col>
-                        <b-col class="d-flex" cols="6">
-                          <v-select
-                              :items="minutes"
-                              label="minutes"
-                              dense
-                              v-model="form.shabatHours.close.minute"
-                          ></v-select>
-                        </b-col>
-                      </b-row>
-                    </b-card>
-                  </v-col>
-                </div>
-
-                <!--                  Payment type and delivery type field-->
-                <div class="row justify-content-between p-4 pl-0">
-                  <v-col cols="12" sm="6" lg="3">
-                    <v-select
-                        v-model="form.payments"
-                        :items="payment"
-                        item-text="name"
-                        item-value="id"
-                        :menu-props="{ maxHeight: '400' }"
-                        label="Payment type"
-                        multiple
-                        hint="Select available payment methods."
-                        persistent-hint
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" sm="6" lg="3">
-                    <v-select
-                        v-model="form.deliveryTypes"
-                        :items="delivery"
-                        item-text="name"
-                        item-value="id"
-                        :menu-props="{ maxHeight: '400' }"
-                        label="Delivery type"
-                        multiple
-                        hint="Select available delivery methods."
-                        persistent-hint
-                    ></v-select>
-                  </v-col>
-
-                  <!--                    Location-->
-                  <div class="row col-12 col-lg-4">
-                    <v-card>
-                      <h4 class="col-12">Shop location</h4>
-                      <v-row class="px-4">
-                        <v-col cols="6">
-                          <v-text-field
-                              label="Latitude"
-                              single-line
-                              v-model="form.storeLocation.lat"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="6">
-                          <v-text-field
-                              label="Longitude"
-                              single-line
-                              v-model="form.storeLocation.lng"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </div>
-                </div>
-
-                <!--                  Contact information field-->
-                <v-card class="p-4 my-8">
-                  <div class="row">
-                    <h4 class="col-12">Contact information</h4>
-                    <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Phone" single-line v-model="form.tel"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Mobile" single-line v-model="form.mobile"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Email" single-line v-model="form.mail"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" lg="3">
-                      <v-text-field label="Fax" single-line v-model="form.fax"></v-text-field>
-                    </v-col>
-                  </div>
-                </v-card>
-
-                <!--                  Admin information field-->
                 <v-col cols="12">
+                  <v-textarea
+                      name="input-7-1"
+                      filled
+                      label="Description. A few words about store"
+                      auto-grow
+                      v-model="form.description"
+                      class="col-12"
+                  ></v-textarea>
+                </v-col>
+
+                <!--                Worktime select-->
+                <v-col class="d-flex" cols="12" sm="4">
+                  <b-card no-body class="overflow-hidden px-8 pt-6">
+                    <b-row>
+                      <h4 class="col-9">Week hours</h4>
+                      <v-checkbox
+                          v-model="form.weekHours.active"
+                          label="active"
+                          class="col-3 mt-0"
+                      ></v-checkbox>
+                      <h6 class="col-12">Opens at</h6>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="hours"
+                            label="hours"
+                            dense
+                            v-model="form.weekHours.open.hour"
+                        ></v-select>
+                      </b-col>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="minutes"
+                            label="minutes"
+                            dense
+                            v-model="form.weekHours.open.minute"
+                        ></v-select>
+                      </b-col>
+                      <h6 class="col-12">Close</h6>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="hours"
+                            label="hours"
+                            dense
+                            v-model="form.weekHours.close.hour"
+                        ></v-select>
+                      </b-col>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="minutes"
+                            label="minutes"
+                            dense
+                            v-model="form.weekHours.close.minute"
+                        ></v-select>
+                      </b-col>
+                    </b-row>
+                  </b-card>
+                </v-col>
+                <v-col class="d-flex" cols="12" sm="4">
+                  <b-card no-body class="overflow-hidden  px-8 pt-6">
+                    <b-row>
+                      <h4 class="col-9">Weekend hours</h4>
+                      <v-checkbox
+                          v-model="form.weekEndHours.active"
+                          label="active"
+                          class="col-3 mt-0"
+                      ></v-checkbox>
+                      <h6 class="col-12">Open</h6>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="hours"
+                            label="hours"
+                            dense
+                            v-model="form.weekEndHours.open.hour"
+                        ></v-select>
+                      </b-col>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="minutes"
+                            label="minutes"
+                            dense
+                            v-model="form.weekEndHours.open.minute"
+                        ></v-select>
+                      </b-col>
+                      <h6 class="col-12">Close</h6>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="hours"
+                            label="hours"
+                            dense
+                            v-model="form.weekEndHours.close.hour"
+                        ></v-select>
+                      </b-col>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="minutes"
+                            label="minutes"
+                            dense
+                            v-model="form.weekEndHours.close.minute"
+                        ></v-select>
+                      </b-col>
+                    </b-row>
+                  </b-card>
+                </v-col>
+                <v-col class="d-flex" cols="12" sm="4">
+                  <b-card no-body class="overflow-hidden  px-8 pt-6">
+                    <b-row>
+                      <h4 class="col-9">Shabat hours</h4>
+                      <v-checkbox
+                          v-model="form.shabatHours.active"
+                          label="active"
+                          class="col-3 mt-0"
+                      ></v-checkbox>
+                      <h6 class="col-12">Open</h6>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="hours"
+                            label="hours"
+                            dense
+                            v-model="form.shabatHours.open.hour"
+                        ></v-select>
+                      </b-col>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="minutes"
+                            label="minutes"
+                            dense
+                            v-model="form.shabatHours.open.minute"
+                        ></v-select>
+                      </b-col>
+                      <h6 class="col-12">Close</h6>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="hours"
+                            label="hours"
+                            dense
+                            v-model="form.shabatHours.close.hour"
+                        ></v-select>
+                      </b-col>
+                      <b-col class="d-flex" cols="6">
+                        <v-select
+                            :items="minutes"
+                            label="minutes"
+                            dense
+                            v-model="form.shabatHours.close.minute"
+                        ></v-select>
+                      </b-col>
+                    </b-row>
+                  </b-card>
+                </v-col>
+
+                <!--                Payment type field-->
+                <v-col cols="12" sm="6" lg="3">
+                  <v-select
+                      v-model="form.payments"
+                      :items="payment"
+                      item-text="name"
+                      item-value="id"
+                      :menu-props="{ maxHeight: '400' }"
+                      label="Payment type"
+                      multiple
+                      hint="Select available payment methods."
+                      persistent-hint
+                  ></v-select>
+                </v-col>
+
+                <!--                Delivery type field-->
+                <v-col cols="12" sm="6" lg="3">
+                  <v-select
+                      v-model="form.deliveryTypes"
+                      :items="delivery"
+                      item-text="name"
+                      item-value="id"
+                      :menu-props="{ maxHeight: '400' }"
+                      label="Delivery type"
+                      multiple
+                      hint="Select available delivery methods."
+                      persistent-hint
+                  ></v-select>
+                </v-col>
+
+                <!--                Location-->
+                <v-col cols="6" sm="6" lg="3">
+                  <v-text-field
+                      label="Store location. Latitude"
+                      single-line
+                      v-model="form.storeLocation.lat"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="6" sm="6" lg="3">
+                  <v-text-field
+                      label="Store location. Longitude"
+                      single-line
+                      v-model="form.storeLocation.lng"
+                  ></v-text-field>
+                </v-col>
+
+                <!--                Contact information field-->
+                <v-col cols="12">
+                  <v-card class="px-8 pt-6">
+                    <div class="row">
+                      <h4 class="col-12">Contact information</h4>
+                      <v-col cols="12" sm="6" lg="3">
+                        <v-text-field label="Phone" single-line></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" lg="3">
+                        <v-text-field label="Mobile" single-line></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" lg="3">
+                        <v-text-field label="Email" single-line></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" lg="3">
+                        <v-text-field label="Fax" single-line></v-text-field>
+                      </v-col>
+                    </div>
+                  </v-card>
+                </v-col>
+
+                <!--                Admin information field-->
+                <v-col cols="12" sm="6">
                   <v-checkbox
                       v-model="form.active"
-                      label="active"
-                      class="col-6 mt-0"
-                  ></v-checkbox>
-                  <v-checkbox
-                      v-model="form.adminActive"
-                      label="admin active"
+                      label="Active"
                       class="col-6 mt-0"
                   ></v-checkbox>
                 </v-col>
-                <v-row>
-                  <v-col col="12" sm="6">
-                    <v-textarea
-                        name="message"
-                        filled
-                        label="Message"
-                        auto-grow
-                        v-model="form.message"
-                    ></v-textarea>
-                  </v-col>
-                  <v-col col="12" sm="6">
-                    <v-textarea
-                        name="message-admin"
-                        filled
-                        label="Admin message"
-                        auto-grow
-                        v-model="form.adminMessage"
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
+                <v-col cols="12" sm="6">
+                  <v-checkbox
+                      v-model="form.adminActive"
+                      label="Admin active"
+                      class="col-6 mt-0"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-textarea
+                      name="message"
+                      filled
+                      label="Message"
+                      auto-grow
+                      v-model="form.message"
+                  ></v-textarea>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-textarea
+                      name="message-admin"
+                      filled
+                      label="Admin message"
+                      auto-grow
+                      v-model="form.adminMessage"
+                  ></v-textarea>
+                </v-col>
               </v-row>
             </v-container>
           </v-card>
 
           <!--          Second form-->
           <v-card v-if="currentItem === 'tab-Delivery'" flat>
-            <v-container class="px-12 py-16">
-              <h2 class="pb-2">Delivery</h2>
-              <div class="row">
-                <v-card class="col-12 col-lg-4">
-                  <v-col cols="12">
-                    <v-combobox
-                        :items="cities"
-                        v-model="city"
-                        :item-text="'name'"
-                        single-line
-                        return-object
-                        label="Select city"
-                    ></v-combobox>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field label="Price" single-line v-model="deliveryPrice"></v-text-field>
-                  </v-col>
-                  <div class="my-2 px-2">
-                    <v-btn large color="primary" class="w-100" @click.prevent="addDelivery(city)"
-                    >Add delivery
-                    </v-btn
-                    >
-                  </div>
-                </v-card>
-                <v-container class="col-12 col-lg-8">
-                  <v-row>
-                    <div v-for="(city, key) in form.delivery" :key="key" class="col-6 col-lg-2">
-                      <v-card class="p-2 h-100">
-                        <div class="font-weight-bold font-size-lg">{{ getCityName(city.city)[0] }}</div>
-                        <div>{{ getCityName(city.city)[1] }}</div>
-                        <div>Price: {{ city.price }}</div>
-                        <b-button class="mt-3" variant="outline-danger" block @click="deleteDelivery(key)">Delete
-                        </b-button>
-                      </v-card>
-                    </div>
-                  </v-row>
-                </v-container>
+            <v-container class="px-12 pt-16">
+              <v-row>
 
-              </div>
+                <!--                Second form title-->
+                <h2 class="col-12">Delivery</h2>
+                <v-col cols="12">
+                  <v-card class="px-8 py-6">
+                    <v-row>
+
+                      <!--                      Town select-->
+                      <v-col cols="12" lg="4">
+                        <v-combobox
+                            :items="cities"
+                            v-model="city"
+                            :item-text="'name'"
+                            single-line
+                            return-object
+                            label="Select city"
+                        ></v-combobox>
+                      </v-col>
+
+                      <!--                      Price input field-->
+                      <v-col cols="12" lg="2">
+                        <v-text-field label="Price" single-line v-model="deliveryPrice"></v-text-field>
+                      </v-col>
+
+                      <!--                      Button add town-->
+                      <v-col cols="12" lg="2">
+                        <v-btn large color="primary"
+                               class="mt-1"
+                               @click.prevent="addDelivery(city)"
+                        >
+                          Add delivery
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-col>
+
+                <!--                City card-->
+                <v-col cols="6" sm="4" md="3" lg="2" v-for="(city, key) in form.delivery" :key="key">
+                  <div class="rounded px-3 py-2 border"
+                       style="box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);">
+                    <div class="font-weight-bold font-size-lg">{{ getCityName(city.city)[0] }}</div>
+                    <div>{{ getCityName(city.city)[1] }}</div>
+                    <div>Price: {{ city.price }}</div>
+                    <b-button class="mt-3"
+                              variant="outline-danger"
+                              block @click="deleteDelivery(key)"
+                    >
+                      Delete
+                    </b-button>
+                  </div>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card>
 
