@@ -16,7 +16,7 @@
       <v-toolbar dark flat style="background: #1e1e2d">
         <template v-slot:extension>
           <v-tabs v-model="currentItem" fixed-tabs slider-color="white">
-            <v-tab v-for="item in items" :key="item" :href="'tab-' + item">
+            <v-tab v-for="item in items" :key="item" :href="'#tab-' + item">
               {{ item }}
             </v-tab>
           </v-tabs>
