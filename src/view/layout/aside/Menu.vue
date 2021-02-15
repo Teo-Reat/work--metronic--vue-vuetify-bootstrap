@@ -96,6 +96,25 @@
         </a>
       </li>
     </router-link>
+    <router-link
+        to="/items"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+          class="menu-item"
+          :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <i class="menu-icon flaticon-gift"></i>
+          <span class="menu-text">Items</span>
+        </a>
+      </li>
+    </router-link>
 
     <li class="menu-section">
       <h4 class="menu-text">Components</h4>

@@ -8,6 +8,7 @@ import config from "./config.module";
 import store from "./store.module";
 import customer from "./customer.module";
 import breadcrumbs from "./breadcrumbs.module";
+import item from "./item.module";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
         user,
         store,
         customer,
-        breadcrumbs
+        breadcrumbs,
+        item
     }
 });

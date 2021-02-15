@@ -63,7 +63,13 @@ const routes = [
         name: "user_profile",
         component: () => import("@/view/pages/user/profile/user-profile.vue"),
         meta: { requiresAuth: true }
-      }
+      },
+      {
+        path: "/items",
+        name: "item_list",
+        component: () => import("@/view/pages/item/item"),
+        meta: { requiresAuth: true }
+      },
     ]
   },
   {

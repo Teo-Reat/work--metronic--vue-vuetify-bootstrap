@@ -66,10 +66,7 @@ const actions = {
 		return ApiService.put("store/" + payload.id, payload).then(({data}) => {
 			return data;
 		});
-	},
-	// [DELETE_STORE](id) {
-	// 	return ApiService.delete("store/" + id)
-	// }
+	}
 };
 
 export default {
