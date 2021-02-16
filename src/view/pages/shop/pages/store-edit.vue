@@ -107,7 +107,6 @@ export default {
           // bind store to model
           .then(data => {
             this.store = new Store(data);
-            console.log(this.store)
             // init accountForm
             Swal.fire({
               title: "",

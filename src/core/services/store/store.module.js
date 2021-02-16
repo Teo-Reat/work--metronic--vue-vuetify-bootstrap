@@ -55,6 +55,7 @@ const actions = {
 				});
 		});
 	},
+
 	[CREATE_STORE](context, payload) {
 
 		return ApiService.post("store/", payload).then(({data}) => {
@@ -62,6 +63,7 @@ const actions = {
 			return data;
 		});
 	},
+
 	[UPDATE_STORE_INFO](context, payload) {
 		return ApiService.put("store/" + payload.id, payload).then(({data}) => {
 			return data;

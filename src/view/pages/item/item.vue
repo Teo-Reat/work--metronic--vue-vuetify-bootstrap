@@ -108,8 +108,8 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.additionnal"
-                        label="Additionnal"
+                        v-model="editedItem.additional"
+                        label="Additional"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -139,7 +139,7 @@
               <v-btn
                   color="blue darken-1"
                   text
-                  @click="save"
+                  @click="save(editedItem)"
               >
                 Save
               </v-btn>
@@ -154,7 +154,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm(editedItem)">OK</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -165,11 +165,11 @@
     <!--    Picture template-->
     <template v-slot:item.picture="{ item }">
       <v-img
+          v-if="item.picture"
           :lazy-src="'https://backend.hashve.co.il/assets/items/' + item.picture"
           :src="'https://backend.hashve.co.il/assets/items/' + item.picture"
           max-height="90"
           max-width="90"
-          transition
       ></v-img>
     </template>
 
@@ -188,19 +188,14 @@
         mdi-delete
       </v-icon>
     </template>
-    <!--    <template v-slot:no-data>-->
-    <!--      <v-btn-->
-    <!--          color="primary"-->
-    <!--          @click="initialize"-->
-    <!--      >-->
-    <!--        Reset-->
-    <!--      </v-btn>-->
-    <!--    </template>-->
+
   </v-data-table>
 </template>
 
 <script>
-import {GET_ITEM_LIST} from "@/core/services/store/item.module";
+import {GET_ITEM_LIST, CREATE_ITEM, UPDATE_ITEM_INFO, DELETE_ITEM} from "@/core/services/store/item.module";
+import Swal from "sweetalert2";
+import {Item} from "@/core/models/Item.model";
 
 export default {
   name: "item",
@@ -227,7 +222,6 @@ export default {
         {text: 'Price', value: 'price', width: '8%'},
         {text: 'Actions', value: 'actions', sortable: false},
       ],
-      desserts: [],
       editedIndex: -1,
       editedItem: {
         name: {
@@ -235,10 +229,10 @@ export default {
           heb: ''
         },
         code: '',
-        recommended: '',
-        dayDeal: '',
-        inStock: '',
-        additionnal: '',
+        recommended: null,
+        dayDeal: null,
+        inStock: null,
+        additional: false,
         price: ''
       },
       defaultItem: {
@@ -247,10 +241,10 @@ export default {
           heb: ''
         },
         code: '',
-        recommended: '',
-        dayDeal: '',
-        inStock: '',
-        additionnal: '',
+        recommended: null,
+        dayDeal: null,
+        inStock: null,
+        additional: false,
         price: ''
       },
     }
@@ -271,101 +265,29 @@ export default {
     },
   },
 
-  created() {
-    // this.initialize()
-  },
-
   methods: {
-    // initialize() {
-    //   this.desserts = [
-    //     {
-    //       name: 'Frozen Yogurt',
-    //       calories: 159,
-    //       fat: 6.0,
-    //       carbs: 24,
-    //       protein: 4.0,
-    //     },
-    //     {
-    //       name: 'Ice cream sandwich',
-    //       calories: 237,
-    //       fat: 9.0,
-    //       carbs: 37,
-    //       protein: 4.3,
-    //     },
-    //     {
-    //       name: 'Eclair',
-    //       calories: 262,
-    //       fat: 16.0,
-    //       carbs: 23,
-    //       protein: 6.0,
-    //     },
-    //     {
-    //       name: 'Cupcake',
-    //       calories: 305,
-    //       fat: 3.7,
-    //       carbs: 67,
-    //       protein: 4.3,
-    //     },
-    //     {
-    //       name: 'Gingerbread',
-    //       calories: 356,
-    //       fat: 16.0,
-    //       carbs: 49,
-    //       protein: 3.9,
-    //     },
-    //     {
-    //       name: 'Jelly bean',
-    //       calories: 375,
-    //       fat: 0.0,
-    //       carbs: 94,
-    //       protein: 0.0,
-    //     },
-    //     {
-    //       name: 'Lollipop',
-    //       calories: 392,
-    //       fat: 0.2,
-    //       carbs: 98,
-    //       protein: 0,
-    //     },
-    //     {
-    //       name: 'Honeycomb',
-    //       calories: 408,
-    //       fat: 3.2,
-    //       carbs: 87,
-    //       protein: 6.5,
-    //     },
-    //     {
-    //       name: 'Donut',
-    //       calories: 452,
-    //       fat: 25.0,
-    //       carbs: 51,
-    //       protein: 4.9,
-    //     },
-    //     {
-    //       name: 'KitKat',
-    //       calories: 518,
-    //       fat: 26.0,
-    //       carbs: 65,
-    //       protein: 7,
-    //     },
-    //   ]
-    // },
-
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.itemList.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.itemList.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
-    deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1)
+    deleteItemConfirm(item) {
+      this.$store
+          .dispatch(DELETE_ITEM, item._id)
       this.closeDelete()
+      Swal.fire({
+        title: "",
+        text: "Item details updated",
+        icon: "success",
+        confirmButtonClass: "btn btn-secondary"
+      })
     },
 
     close() {
@@ -384,18 +306,80 @@ export default {
       })
     },
 
-    save() {
+    save(editedItem) {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        // Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        this.saveEdit(editedItem)
       } else {
-        this.desserts.push(this.editedItem)
+        this.saveCreate(editedItem)
       }
       this.close()
+    },
+
+    saveCreate(form) {
+      this.$store
+          .dispatch(CREATE_ITEM, form)
+          .then(data => {
+            data;
+            Swal.fire({
+              title: '',
+              text: "The application has been successfully submitted!",
+              icon: "success",
+              confirmButtonClass: "btn btn-secondary"
+            });
+          })
+          .catch(error => {
+            console.log(error);
+            Swal.fire({
+              title: '',
+              text: error.message,
+              icon: "warning",
+              confirmButtonClass: "btn btn-danger"
+            });
+          });
+    },
+
+    submit: function (e) {
+      e.preventDefault();
+      Swal.fire({
+        title: '',
+        text: "The application has been successfully submitted!",
+        icon: "success",
+        confirmButtonClass: "btn btn-secondary"
+      });
+    },
+
+    saveEdit(item) {
+      this.editedItem.id = item._id;
+      this.$store
+          .dispatch(UPDATE_ITEM_INFO, this.editedItem)
+          // bind store to model
+          .then(data => {
+            this.item = new Item(data);
+            // init accountForm
+            Swal.fire({
+              title: "",
+              text: "Store details updated",
+              icon: "success",
+              confirmButtonClass: "btn btn-secondary"
+            });
+          })
+          .catch(error => {
+            //catch the error here
+            console.log(error);
+            Swal.fire({
+              title: "",
+              text: error.message,
+              icon: "warning",
+              confirmButtonClass: "btn btn-danger"
+            });
+          });
     },
   },
 
   mounted() {
     this.$store.dispatch(GET_ITEM_LIST).then(data => (this.itemList = data));
+    console.log(DELETE_ITEM)
   },
 }
 </script>
