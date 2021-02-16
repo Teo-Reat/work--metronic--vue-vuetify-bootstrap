@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
-// import promise from "@/assets/plugins/formvalidation/src/js/validators/promise.ts";
 
 // action types
 export const GET_ITEM_LIST = "item-list";

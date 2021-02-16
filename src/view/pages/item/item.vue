@@ -10,11 +10,6 @@
           flat
       >
         <v-toolbar-title>Some title</v-toolbar-title>
-        <!--        <v-divider-->
-        <!--            class="mx-4"-->
-        <!--            inset-->
-        <!--            vertical-->
-        <!--        ></v-divider>-->
         <v-spacer></v-spacer>
         <v-dialog
             v-model="dialog"
@@ -78,49 +73,37 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.recommended"
-                        label="Recommended"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.dayDeal"
-                        label="Day deal"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.inStock"
-                        label="In stock"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.additional"
-                        label="Additional"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
                         v-model="editedItem.price"
                         label="Price"
                     ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <b-form-checkbox size="lg" v-model="editedItem.recommended">Recommended</b-form-checkbox>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <b-form-checkbox size="lg" v-model="editedItem.dayDeal">Day deal</b-form-checkbox>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <b-form-checkbox size="lg" v-model="editedItem.inStock">In stock</b-form-checkbox>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <b-form-checkbox size="lg" v-model="editedItem.additional">Additional</b-form-checkbox>
                   </v-col>
                 </v-row>
               </v-container>
@@ -171,6 +154,30 @@
           max-height="90"
           max-width="90"
       ></v-img>
+    </template>
+
+    <template v-slot:item.name.en="{ item }">
+      <div class="text-capitalize">{{ item.name.en }}</div>
+    </template>
+
+    <template v-slot:item.recommended="{ item }">
+      <div v-if="item.recommended">Yes</div>
+      <div v-else>No</div>
+    </template>
+
+    <template v-slot:item.dayDeal="{ item }">
+      <div v-if="item.dayDeal">Yes</div>
+      <div v-else>No</div>
+    </template>
+
+    <template v-slot:item.inStock="{ item }">
+      <div v-if="item.inStock">Yes</div>
+      <div v-else>No</div>
+    </template>
+
+    <template v-slot:item.additional="{ item }">
+      <div v-if="item.additional">Yes</div>
+      <div v-else>No</div>
     </template>
 
     <template v-slot:item.actions="{ item }">
@@ -241,9 +248,9 @@ export default {
           heb: ''
         },
         code: '',
-        recommended: null,
-        dayDeal: null,
-        inStock: null,
+        recommended: false,
+        dayDeal: false,
+        inStock: false,
         additional: false,
         price: ''
       },
@@ -282,6 +289,9 @@ export default {
       this.$store
           .dispatch(DELETE_ITEM, item._id)
       this.closeDelete()
+      let deletedItem = this.itemList.findIndex(i => i._id === item._id)
+      this.itemList.splice(deletedItem, 1)
+
       Swal.fire({
         title: "",
         text: "Item details updated",
@@ -321,6 +331,7 @@ export default {
           .dispatch(CREATE_ITEM, form)
           .then(data => {
             data;
+            this.itemList.push(data)
             Swal.fire({
               title: '',
               text: "The application has been successfully submitted!",
