@@ -40,12 +40,21 @@
             </b-card-text>
           </v-row>
           <b-card-text>
-            <router-link to="/shops" class="d-inline-block my-6 font-weight-bold">
+            <v-btn
+                to="/shops"
+                depressed
+                color="primary"
+            >
               Back
-            </router-link>
-            <router-link :to="{ name: 'shop_edit', params: { id: shop._id} }" class="card-link font-weight-bold ml-4">
+            </v-btn>
+            <v-btn
+                :to="{ name: 'shop_edit', params: { id: shop._id} }"
+                depressed
+                color="primary"
+                class="ml-2"
+            >
               Edit
-            </router-link>
+            </v-btn>
           </b-card-text>
         </b-card>
       </div>

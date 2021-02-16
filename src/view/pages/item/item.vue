@@ -9,7 +9,7 @@
       <v-toolbar
           flat
       >
-        <v-toolbar-title>Some title</v-toolbar-title>
+        <v-toolbar-title>Items</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-dialog
             v-model="dialog"

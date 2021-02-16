@@ -1,11 +1,20 @@
 <template>
   <v-card class="p-8">
-    <router-link :to="{ name: 'store_create' }" class="card-link font-weight-bold">
+    <v-btn
+        :to="{ name: 'store_create' }"
+        depressed
+        color="primary"
+    >
       Create
-    </router-link>
-    <router-link :to="{ name: 'store_test' }" class="card-link">
+    </v-btn>
+    <v-btn
+        :to="{ name: 'store_test' }"
+        depressed
+        color="primary"
+        class="ml-2"
+    >
       Test
-    </router-link>
+    </v-btn>
     <b-card
         v-for="shop in storeList"
         :key="shop._id"
@@ -21,15 +30,17 @@
               <b-card-text>
                 {{ shop.address.en }} | {{ shop.address.heb }}
               </b-card-text>
-              <router-link
+              <v-btn
                   :to="{
                       name: 'shop_detail',
                       params: { id: shop._id, shop: shop }
                     }"
-                  class="card-link font-weight-bold"
+                  depressed
+                  color="primary"
+                  class="ml-2"
               >
                 Detail
-              </router-link>
+              </v-btn>
             </b-card-body>
           </template>
         </b-col>

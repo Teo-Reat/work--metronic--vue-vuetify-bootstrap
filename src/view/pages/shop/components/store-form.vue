@@ -410,18 +410,32 @@
       </v-tab-item>
     </v-tabs-items>
 
-    <div class="container">
-      <div class="mb-2 px-8">
-        <v-btn
-            large
-            color="primary"
-            class="ml-auto d-block"
-            v-on:click="onSubmit"
-        >
-          Accept
-        </v-btn>
-      </div>
-    </div>
+    <v-container>
+      <v-row>
+        <v-col cols="12" class="text-right px-12">
+          <v-btn
+              :to="{
+                      name: 'shop_detail',
+                      params: { id: value._id }
+                    }"
+              depressed
+              large
+              color="primary"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+              color="primary"
+              depressed
+              large
+              class="ml-2"
+              v-on:click="onSubmit"
+          >
+            Accept
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
 
   </v-form>
 </template>
