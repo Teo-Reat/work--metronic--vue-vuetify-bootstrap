@@ -2,24 +2,26 @@
   <v-data-table
       :headers="headers"
       :items="itemList"
-      sort-by="calories"
+      sort-by="name.en"
       class="elevation-1"
   >
     <template v-slot:top>
       <v-toolbar
           flat
       >
-        <v-toolbar-title>My CRUD</v-toolbar-title>
-        <v-divider
-            class="mx-4"
-            inset
-            vertical
-        ></v-divider>
+        <v-toolbar-title>Some title</v-toolbar-title>
+        <!--        <v-divider-->
+        <!--            class="mx-4"-->
+        <!--            inset-->
+        <!--            vertical-->
+        <!--        ></v-divider>-->
         <v-spacer></v-spacer>
         <v-dialog
             v-model="dialog"
             max-width="500px"
         >
+
+          <!--          Button for create new item-->
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 color="primary"
@@ -36,6 +38,7 @@
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
 
+            <!--            Cteate new item form-->
             <v-card-text>
               <v-container>
                 <v-row>
@@ -45,8 +48,8 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.name"
-                        label="Dessert name"
+                        v-model="editedItem.name.en"
+                        label="Name English"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -55,8 +58,8 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.calories"
-                        label="Calories"
+                        v-model="editedItem.name.heb"
+                        label="Name Hebrew"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -65,8 +68,8 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.fat"
-                        label="Fat (g)"
+                        v-model="editedItem.code"
+                        label="Code"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -75,8 +78,8 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.carbs"
-                        label="Carbs (g)"
+                        v-model="editedItem.recommended"
+                        label="Recommended"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -85,14 +88,45 @@
                       md="4"
                   >
                     <v-text-field
-                        v-model="editedItem.protein"
-                        label="Protein (g)"
+                        v-model="editedItem.dayDeal"
+                        label="Day deal"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.inStock"
+                        label="In stock"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.additionnal"
+                        label="Additionnal"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.price"
+                        label="Price"
                     ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
 
+            <!--            Card actions (delete, edit)-->
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -112,6 +146,8 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+        <!--        Deletig item modal-->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
@@ -125,6 +161,18 @@
         </v-dialog>
       </v-toolbar>
     </template>
+
+    <!--    Picture template-->
+    <template v-slot:item.picture="{ item }">
+      <v-img
+          :lazy-src="'https://backend.hashve.co.il/assets/items/' + item.picture"
+          :src="'https://backend.hashve.co.il/assets/items/' + item.picture"
+          max-height="90"
+          max-width="90"
+          transition
+      ></v-img>
+    </template>
+
     <template v-slot:item.actions="{ item }">
       <v-icon
           small
@@ -140,14 +188,14 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-          color="primary"
-          @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
+    <!--    <template v-slot:no-data>-->
+    <!--      <v-btn-->
+    <!--          color="primary"-->
+    <!--          @click="initialize"-->
+    <!--      >-->
+    <!--        Reset-->
+    <!--      </v-btn>-->
+    <!--    </template>-->
   </v-data-table>
 </template>
 
@@ -164,32 +212,46 @@ export default {
       dialogDelete: false,
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: '',
           align: 'start',
           sortable: false,
-          value: 'name',
+          value: 'picture',
         },
-        {text: 'Calories', value: 'calories'},
-        {text: 'Fat (g)', value: 'fat'},
-        {text: 'Carbs (g)', value: 'carbs'},
-        {text: 'Protein (g)', value: 'protein'},
+        {text: 'Name English', value: 'name.en'},
+        {text: 'Name Hebrew', value: 'name.heb'},
+        {text: 'Code', value: 'code', width: '8%'},
+        {text: 'Recommended', value: 'recommended', width: '8%'},
+        {text: 'Day deal', value: 'dayDeal', width: '8%'},
+        {text: 'In stock', value: 'inStock', width: '8%'},
+        {text: 'Additional', value: 'additional', width: '8%'},
+        {text: 'Price', value: 'price', width: '8%'},
         {text: 'Actions', value: 'actions', sortable: false},
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        name: {
+          en: '',
+          heb: ''
+        },
+        code: '',
+        recommended: '',
+        dayDeal: '',
+        inStock: '',
+        additionnal: '',
+        price: ''
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        name: {
+          en: '',
+          heb: ''
+        },
+        code: '',
+        recommended: '',
+        dayDeal: '',
+        inStock: '',
+        additionnal: '',
+        price: ''
       },
     }
   },
